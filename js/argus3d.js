@@ -6,8 +6,8 @@ var container, camera, scene, renderer, mesh;
 // intersection 
 var raycaster, mouse, INTERSECTED,
 
-  CANVAS_WIDTH = 205,
-  CANVAS_HEIGHT = 430,
+  CANVAS_WIDTH,
+  CANVAS_HEIGHT,
 
   CANVAS_OFFSETX,
   CANVAS_OFFSETY;
@@ -22,7 +22,7 @@ var targetRotationX = 0,
 
   mouseIsDown = false,
 
-  windowHalfX = CANVAS_WIDTH / 2;
+  windowHalfX;
 
 function init () {    
   // info
@@ -44,6 +44,12 @@ function init () {
 
   // container for 3d model
   container = document.getElementById( 'canvas' );
+
+  CANVAS_WIDTH = container.offsetWidth;
+  CANVAS_HEIGHT = container.offsetHeight;
+  console.log(CANVAS_WIDTH, CANVAS_HEIGHT);
+
+  windowHalfX = CANVAS_WIDTH / 2;
   
   // normalize mouse 
   CANVAS_OFFSETX = container.offsetLeft;
@@ -160,10 +166,15 @@ function init () {
 
 function onWindowResize() {
 
-  // camera.aspect = window.innerWidth / window.innerHeight;
-  // camera.updateProjectionMatrix();
+  CANVAS_WIDTH = container.offsetWidth;
+  CANVAS_HEIGHT = container.offsetHeight;
+  
+  windowHalfX = CANVAS_WIDTH / 2;
 
-  // renderer.setSize( window.innerWidth, window.innerHeight );
+  camera.aspect = CANVAS_WIDTH / CANVAS_HEIGHT;
+  camera.updateProjectionMatrix();
+
+  renderer.setSize( CANVAS_WIDTH, CANVAS_HEIGHT );
 
 }
 
@@ -191,6 +202,7 @@ function onDocumentMouseMove( event ) {
   if (mouseIsDown === true ) {
     mouseX = event.clientX - windowHalfX;
     targetRotationX = targetRotationOnMouseDownX + (mouseX - mouseXOnMouseDown) * 0.02;
+    console.log(targetRotationX);
   }
 
 }
